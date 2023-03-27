@@ -9,7 +9,7 @@ namespace LoggingLibrary;
 //Could be optimized buy determination which operation type and removing unnecessary flushes
 public class LogFileOperationsSynchronizer : IFileOperationsSynchronizer
 {
-    private readonly Func<FileStream> fileStreamFactory;
+    private readonly ILogFileStreamFactory fileStreamFactory;
 
     private record IoOperationScheduleGroup(
         Func<FileStream, CancellationToken, TaskCompletionSource, Task> AsyncIoOperation,
@@ -21,7 +21,7 @@ public class LogFileOperationsSynchronizer : IFileOperationsSynchronizer
     //Used to avoid 
     private ConcurrentQueue<IoOperationScheduleGroup> asyncFileOperationsQueue = new();
 
-    public LogFileOperationsSynchronizer(Func<FileStream> fileStreamFactory)
+    public LogFileOperationsSynchronizer(ILogFileStreamFactory fileStreamFactory)
     {
         this.fileStreamFactory = fileStreamFactory;
     }
@@ -50,13 +50,16 @@ public class LogFileOperationsSynchronizer : IFileOperationsSynchronizer
             };
 
         int queueSize = this.asyncFileOperationsQueue.Count;
-        var runAsyncIOOperation = AsyncMutationFactory(fileStreamFactory());
+        var fileStream = this.fileStreamFactory.CreateLoggingFileStream();
+        var runAsyncIOOperation = AsyncMutationFactory(fileStream);
         while (queueSize-- != 0)
         {
             await runAsyncIOOperation(DeferredAsyncOperationIteration);
         }
 
         await runAsyncIOOperation(asyncOperation);
+        //Open lock
+        Interlocked.Exchange(ref synchronizationFlag, 0);
     }
 
     private Task ScheduleDeferredOperation(Func<FileStream, CancellationToken, Task> asyncOperation)
