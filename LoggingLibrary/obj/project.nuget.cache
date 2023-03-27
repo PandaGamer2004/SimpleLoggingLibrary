@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "mOawuvCF3szT0MHG7bvYH+5qrbtHKsuCK7NiPkyYUcODRQLWQutCUH7Wt3gHnVZUZt9m87XWwRg2azjoJsoBwg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\bazhanov\\RiderProjects\\LoggingLibrary\\LoggingLibrary\\LoggingLibrary.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\bazhanov\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\bazhanov\\.nuget\\packages\\microsoft.extensions.options\\7.0.1\\microsoft.extensions.options.7.0.1.nupkg.sha512",
+    "C:\\Users\\bazhanov\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
