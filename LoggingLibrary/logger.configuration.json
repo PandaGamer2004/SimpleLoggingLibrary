@@ -1,0 +1,8 @@
+{
+  "LoggingConfiguration": {
+    "LogsOutputFilePath": "logs.txt"
+  },
+  "Replication": {
+     "LogEntriesCountThresholdToRunReplication": 1000
+  }
+}

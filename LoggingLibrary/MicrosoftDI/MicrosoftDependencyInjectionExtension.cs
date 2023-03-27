@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace LoggingLibrary.MicrosoftDI;
 
-public static class MicrosoftDependencyInjectionExtension
+public static class MicrosoftDependencyInjectionExtension  
 {
     private const string DefaultLogFilePath = "logger.configuration.json";
 
@@ -20,9 +20,9 @@ public static class MicrosoftDependencyInjectionExtension
         hostBuilder.ConfigureAppConfiguration((_, configurationBuilder) =>
         {
             configurationBuilder.AddJsonFile(loggingConfiguration.LogsFilePath, optional:false);
-        }).ConfigureServices((_, serviceCollection) =>
+        }).ConfigureServices((hostContext, serviceCollection) =>
         {
-            
+            IConfiguration appConfiguration = hostContext.Configuration;
         });
 
         return hostBuilder;

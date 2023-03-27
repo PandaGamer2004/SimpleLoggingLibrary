@@ -12,12 +12,12 @@ public class LogEntryWrittenCollectionHandler: IEventHandler<LogEntryWrittenEven
         
     private IEventHandler<LogEntryThresholdReached> threasholdReachedHandler;
     public LogEntryWrittenCollectionHandler(IEventHandler<LogEntryThresholdReached> threasholdReachedHandler,
-        IOptionsMonitor<LoggingEntriesThresholdOptions> thresholdEventNumberOptions)
+        IOptionsMonitor<ReplicationOptions> thresholdEventNumberOptions)
     {
         IDisposable? changeTracker = thresholdEventNumberOptions.OnChange(_ =>
         {
             //in theory this updates couldn't be fired on concurrent threads so here synchronization not important
-            this.thresholdWrites = thresholdEventNumberOptions.CurrentValue.EntriesCount;
+            this.thresholdWrites = thresholdEventNumberOptions.CurrentValue.LogEntriesCountThresholdToRunReplication;
         });
         this.configurationTracker = changeTracker ?? throw new LoggingConfigurationException(LoggingErrorMessages.LoggingThresholdNotConfigured);
         this.threasholdReachedHandler = threasholdReachedHandler;
